@@ -1254,7 +1254,9 @@ do_name_split(ArchiveFile0, File) ->
 
 string_match([Char | File], [Char | Archive], RevTop) ->
     string_match(File, Archive, [Char | RevTop]);
-string_match(File, [], RevTop) ->
+string_match([] = File, [], RevTop) ->
+    {match, RevTop, File};
+string_match([$/ | _Rest] = File, [], RevTop) ->
     {match, RevTop, File};
 string_match(_File, _Archive, _RevTop) ->
     no_match.
