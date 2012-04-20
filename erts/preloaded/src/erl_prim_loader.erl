@@ -919,9 +919,15 @@ prim_list_dir(PS, Dir) ->
                                     Name = reverse(RevName),
                                     {true, {Status, [Name | Names]}};
                                 [RevName] when FunnyDir =:= [""] ->
-                                    %% Top file
-                                    Name = reverse(RevName),
-                                    {true, {ok, [Name | Names]}};
+                                    case RevName of
+                                        "" ->
+                                            %% Top directory
+                                            {true, {ok, Names}};
+                                        _ ->
+                                            %% Top file
+                                            Name = reverse(RevName),
+                                            {true, {ok, [Name | Names]}}
+                                    end;
                                 ["", RevName] when FunnyDir =:= [""] ->
                                     %% Top file
                                     Name = reverse(RevName),
