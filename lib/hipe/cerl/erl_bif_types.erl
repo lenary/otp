@@ -766,6 +766,8 @@ type(erlang, float, 1, Xs) ->
   strict(arg_types(erlang, float, 1), Xs, fun (_) -> t_float() end);
 type(erlang, float_to_list, 1, Xs) ->
   strict(arg_types(erlang, float_to_list, 1), Xs, fun (_) -> t_string() end);
+type(erlang, float_to_list, 2, Xs) ->
+  strict(arg_types(erlang, float_to_list, 2), Xs, fun (_) -> t_string() end);
 type(erlang, function_exported, 3, Xs) ->
   strict(arg_types(erlang, function_exported, 3), Xs,
 	 fun (_) -> t_boolean() end);
@@ -3550,6 +3552,10 @@ arg_types(erlang, float, 1) ->
   [t_number()];
 arg_types(erlang, float_to_list, 1) ->
   [t_float()];
+arg_types(erlang, float_to_list, 2) ->
+  [t_float(), t_list(t_sup([t_atom('compact'),
+                            t_tuple([t_atom('decimals'),
+                                     t_non_neg_integer()])]))];
 arg_types(erlang, function_exported, 3) ->
   [t_atom(), t_atom(), t_arity()];
 arg_types(erlang, fun_info, 1) ->
