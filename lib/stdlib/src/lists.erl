@@ -39,6 +39,7 @@
 -export([merge/3, rmerge/3, sort/2, umerge/3, rumerge/3, usort/2]).
 
 -export([all/2,any/2,map/2,flatmap/2,foldl/3,foldr/3,filter/2,
+   foldl1/2,foldr1/2,
 	 partition/2,zf/2,
 	 mapfoldl/3,mapfoldr/3,foreach/2,takewhile/2,dropwhile/2,splitwith/2,
 	 split/2]).
@@ -1197,6 +1198,18 @@ foldl(F, Accu, [Hd|Tail]) ->
     foldl(F, F(Hd, Accu), Tail);
 foldl(F, Accu, []) when is_function(F, 2) -> Accu.
 
+-spec foldl1(Fun, List) -> Acc when
+      Fun :: fun((Elem :: T, AccIn) -> AccOut),
+      Acc :: T,
+      AccIn :: T,
+      AccOut :: T,
+      List :: [T,...],
+      T :: term().
+
+foldl1(F, [Hd1,Hd2|Tail]) ->
+  foldl1(F, [F(Hd1, Hd2)|Tail]);
+foldl1(F, [Hd]) when is_function(F, 2) -> Hd.
+
 -spec foldr(Fun, Acc0, List) -> Acc1 when
       Fun :: fun((Elem :: T, AccIn) -> AccOut),
       Acc0 :: term(),
@@ -1209,6 +1222,19 @@ foldl(F, Accu, []) when is_function(F, 2) -> Accu.
 foldr(F, Accu, [Hd|Tail]) ->
     F(Hd, foldr(F, Accu, Tail));
 foldr(F, Accu, []) when is_function(F, 2) -> Accu.
+
+-spec foldr1(Fun, List) -> Acc when
+      Fun :: fun((Elem :: T, AccIn) -> AccOut),
+      Acc :: T,
+      AccIn :: T,
+      AccOut :: T,
+      List :: [T,...],
+      T :: term().
+
+foldr1(F, [Hd|Tail]) ->
+    F(Hd, foldr1(F, Tail));
+foldr1(F, [Hd]) when is_function(F, 2) -> Hd.
+
 
 -spec filter(Pred, List1) -> List2 when
       Pred :: fun((Elem :: T) -> boolean()),
