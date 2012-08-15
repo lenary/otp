@@ -1207,7 +1207,7 @@ foldl(F, Accu, []) when is_function(F, 2) -> Accu.
       T :: term().
 
 foldl1(F, [Hd1,Hd2|Tail]) ->
-  foldl1(F, [F(Hd1, Hd2)|Tail]);
+  foldl1(F, [F(Hd2, Hd1)|Tail]);
 foldl1(F, [Hd]) when is_function(F, 2) -> Hd.
 
 -spec foldr(Fun, Acc0, List) -> Acc1 when
