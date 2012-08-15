@@ -211,6 +211,25 @@ flatmap(Fun, List1) ->
       </desc>
     </func>
     <func>
+      <name name="foldl1" arity="2"/>
+      <fsummary>Fold a function over a non-empty list</fsummary>
+      <desc>
+        <p>Calls <c><anno>Fun</anno>(<anno>Elem</anno>, <anno>AccIn</anno>)</c> on successive elements <c>A</c>
+          of <c>List</c>, starting with <c><anno>AccIn</anno> == hd(<anno>List</anno>)</c> and
+          <c><anno>Elem</anno> == lists:nth(2, <anno>List</anno>)<c>. <c><anno>Fun</anno>/2</c>
+          must return a new accumulator which is passed to the next call. The function returns
+          the final value of the accumulator. It is an error to pass this function an empty list.
+          For example:</p>
+      <pre>
+> <input>lists:foldl1(fun(X, Sum) -> X + Sum end, [1,2,3,4,5]).</input>
+15
+> <input>lists:foldl1(fun(X, Prod) -> X * Prod end, [1,2,3,4,5]).</input>
+120</pre>
+        <p><c>foldl1/2</c> is useful as a replacement to <c>foldl/3</c> when you
+          don't know your function's "unit" value (or it doesn't have one).</p>
+      </desc>
+    </func>
+    <func>
       <name name="foldr" arity="3"/>
       <fsummary>Fold a function over a list</fsummary>
       <desc>
@@ -225,6 +244,17 @@ flatmap(Fun, List1) ->
 3 2 1 void</pre>
         <p><c>foldl/3</c> is tail recursive and would usually be
           preferred to <c>foldr/3</c>.</p>
+      </desc>
+    </func>
+    <func>
+      <name name="foldr1" arity="2"/>
+      <fsummary>Fold a function over a non-empty list</fsummary>
+      <desc>
+        <p>Like <c>foldl1/2</c>, but the list is traversed from right to left.</p>
+        <p><c>foldl1/2</c> is tail recursive and would usually be
+          preferred to <c>foldr1/2</c>.</p>
+        <p><c>foldr1/2</c> is useful as a replacement to <c>foldr/3</c> when you
+          don't know your function's "unit" value (or it doesn't have one).</p>
       </desc>
     </func>
     <func>
